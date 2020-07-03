@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile ('net.dv8tion:JDA:4+') {
+        exclude module: 'opus-java'
+    }
+}
