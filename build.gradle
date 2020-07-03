@@ -7,7 +7,12 @@ repositories {
 }
 
 dependencies {
+    compile 'com.jagrosh:jda-utilities:2+'
     compile ('net.dv8tion:JDA:4+') {
         exclude module: 'opus-java'
     }
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    compile 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.codehaus.groovy:groovy:3+'
 }
