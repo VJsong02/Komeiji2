@@ -9,8 +9,8 @@ import javax.security.auth.login.LoginException;
 
 public class Main {
     public static void main(String[] args) throws LoginException {
-        JDABuilder builder = new JDABuilder(Safe.TESTBOTKEY);
-        builder.setActivity(Activity.watching("the chat"));
-        JDA jda = builder.build();
+        JDA jda = new JDABuilder(Safe.TESTBOTKEY)
+                .setActivity(Activity.watching("the chat"))
+                .build();
     }
 }
