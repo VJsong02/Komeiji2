@@ -1,8 +1,6 @@
 package org.komeiji.resources;
 
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.utils.AttachmentOption;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,13 +39,7 @@ public class Functions {
         return out;
     }
 
-    public static Message sendFileMessage(TextChannel c, String url, String filename, String message) {
-        Message m = null;
-        try {
-            m = c.sendFile(new URL(url).openStream(), filename, AttachmentOption.valueOf("test")).complete();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return m;
+    public static void sendFileMessage(MessageChannel c, String url, String filename, String message) throws IOException {
+        c.sendMessage(message).addFile(new URL(url).openStream(), filename).queue();
     }
 }
