@@ -1,3 +1,5 @@
+package org.komeiji.resources.CommandResources;
+
 import org.komeiji.main.DataSource;
 
 import java.sql.Connection;

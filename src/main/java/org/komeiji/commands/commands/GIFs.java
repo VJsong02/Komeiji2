@@ -1,7 +1,11 @@
 package org.komeiji.commands.commands;
 
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.komeiji.resources.CommandResources.GifMessage;
 
-public class GIFs extends ListenerAdapter {
+import java.util.ArrayList;
+
+public class GIFs {
+    public static ArrayList<GifMessage> gifs = new ArrayList<>();
+
 
 }

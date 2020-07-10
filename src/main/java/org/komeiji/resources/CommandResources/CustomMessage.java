@@ -5,7 +5,7 @@ public class CustomMessage {
 
     private final String author;
 
-    CustomMessage(String link, String author) {
+    public CustomMessage(String link, String author) {
         this.link = link;
         this.author = author;
     }

@@ -23,7 +23,6 @@ public class Miscellaneous extends ListenerAdapter {
 
     HashMap<String, String> numbers = new HashMap<>() {
         private static final long serialVersionUID = 1L;
-
         {
             put("1", ":one:");
             put("2", ":two:");
@@ -49,7 +48,7 @@ public class Miscellaneous extends ListenerAdapter {
             if (m.getContentDisplay().equals(prefix + "ping"))
                 c.sendMessage((OffsetDateTime.now().getNano() - m.getTimeCreated().getNano()) / 1000000 + " ms").queue();
 
-                // randcaps, randomizes capitalization and sends resulting text with a spongebob image
+            // randcaps, randomizes capitalization and sends resulting text with a spongebob image
             else if (m.getContentDisplay().startsWith(prefix + "randcaps")) {
                 if (m.getContentDisplay().length() > 9) {
                     String message = m.getContentDisplay().substring(prefix.length() + 8);
