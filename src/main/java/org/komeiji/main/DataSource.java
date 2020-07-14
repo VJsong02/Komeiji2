@@ -9,15 +9,14 @@ import java.sql.SQLException;
 
 public class DataSource {
     private static final HikariConfig config = new HikariConfig();
-    private static final HikariDataSource ds = new HikariDataSource(config);
+    private static final HikariDataSource ds;
 
     static {
         config.setJdbcUrl(Safe.url);
         config.setUsername(Safe.dbUsername);
         config.setPassword(Safe.dbPassword);
-        config.setMaximumPoolSize(10);
-        config.setIdleTimeout(10000L);
-        config.setLeakDetectionThreshold(10000L);
+
+        ds = new HikariDataSource(config);
     }
 
     public static Connection getConnection() throws SQLException {

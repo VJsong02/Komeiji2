@@ -1,27 +1,50 @@
 package org.komeiji.main;
 
-import org.codehaus.groovy.antlr.SourceInfo;
-import org.komeiji.commands.miscellaneous.SourceFinder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import org.komeiji.commands.commands.CustomCommands;
+import org.komeiji.commands.commands.GIFs;
+import org.komeiji.resources.Safe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import javax.security.auth.login.LoginException;
+import java.awt.*;
+import java.sql.SQLException;
 
 public class Main {
-    public static final String prefix = "t!";
+    public static final String prefix = "!";
+    public static final Color clr = new Color(118, 131, 41);
+    public static final Logger logger = LoggerFactory.getLogger("Komeiji");
 
-    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException, IOException {
-        System.out.println("Initializing...");
-        Initialization.initialize();
+    public static JDA jda;
 
-//        JDA jda = JDABuilder.createDefault(Safe.TESTBOTKEY)
-//                .addEventListeners(
-//                        new Miscellaneous()
-//                )
-//                .setActivity(Activity.watching("the chat"))
-//                .build();
+    public static void main(String[] args) throws LoginException, InterruptedException, SQLException {
+        logger.info("Version 3 beta 1");
 
-        System.out.println("Finished loading.");
+        logger.info("Initializing...");
+        Initialization.loadCommands();
+        logger.info(CommandListener.commands.keySet().size() + " commands loaded.");
+        CustomCommands.customcommands = Initialization.loadCustomCommands();
+        logger.info(CustomCommands.customcommands.size() + " custom commands loaded.");
+        GIFs.gifs = Initialization.loadGifCommands();
+        logger.info(GIFs.gifs.size() + " gifs found.");
 
-        org.komeiji.commands.miscellaneous.SourceFinder.findSource("https://cdn.discordapp.com/attachments/541701809148788736/730253240804966430/mofuringu-artist-futa-elf-futa-exotic-type-_01D5MYSYTXV8JEYW3KF6FD90QW2.jpeg");
+        jda = JDABuilder.createDefault(Safe.MAINBOTKEY)
+                .addEventListeners(
+                        new CommandListener(),
+
+                        new CustomCommands(),
+                        new GIFs()
+                )
+                .setActivity(Activity.watching("the chat"))
+                .build().awaitReady();
+
+        logger.info("Initialization complete.");
+
+//        org.komeiji.commands.miscellaneous.SourceFinder
+//                .findSource("https://cdn.discordapp.com/attachments/541701809148788736/730253240804966430/" +
+//                        "mofuringu-artist-futa-elf-futa-exotic-type-_01D5MYSYTXV8JEYW3KF6FD90QW2.jpeg");
     }
 }

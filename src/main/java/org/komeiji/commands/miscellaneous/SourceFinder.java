@@ -24,15 +24,15 @@ class result {
 }
 
 public class SourceFinder {
-    public static String findSource(String url) throws IOException {
-        String json = Functions.toString("https://saucenao.com/search.php?api_key=" + Safe.SauceNAOKey + "db=999&output_type=2&testmode=1&numres=16&url=" + url);
+    public static void source(String url) throws IOException {
+        String search = "https://saucenao.com/search.php?api_key=" + Safe.SauceNAOKey + "db=107221536&output_type=2&testmode=1&numres=16&url=" + url;
+        System.out.println(search);
+        String json = Functions.toString(search);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject results = gson.fromJson(json, JsonObject.class);
 
         for (JsonElement element : results.getAsJsonArray("results"))
             System.out.println(element);
-
-        return "kek";
     }
 }

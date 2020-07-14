@@ -1,7 +1,6 @@
 package org.komeiji.resources.CommandResources;
 
 import org.komeiji.main.DataSource;
-import org.komeiji.resources.Functions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +15,7 @@ public class GifFunctions {
         p.setString(1, name);
         ResultSet r = p.executeQuery();
         r.next();
-        GifMessage g = new GifMessage(r.getString("cmd"), r.getString("message"), Functions.getArgs(r.getString("links")), r.getBoolean("requiresmention"), r.getBoolean("isnsfw"));
+        GifMessage g = new GifMessage(r.getString("cmd"), r.getString("message"), r.getString("links").split(" "), r.getBoolean("requiresmention"), r.getBoolean("isnsfw"));
         c.close();
         p.close();
         r.close();
