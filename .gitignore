@@ -4,3 +4,7 @@
 /.gradle/
 /build/
 /src/main/java/META-INF/
+/config.json
+*.class
+/gradle/
+/src/test/

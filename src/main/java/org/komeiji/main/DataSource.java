@@ -2,7 +2,6 @@ package org.komeiji.main;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.komeiji.resources.Safe;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,9 +11,9 @@ public class DataSource {
     private static final HikariDataSource ds;
 
     static {
-        config.setJdbcUrl(Safe.url);
-        config.setUsername(Safe.dbUsername);
-        config.setPassword(Safe.dbPassword);
+        config.setJdbcUrl(Main.safe.get("url"));
+        config.setUsername(Main.safe.get("dbUsername"));
+        config.setPassword(Main.safe.get("dbPassword"));
 
         ds = new HikariDataSource(config);
     }

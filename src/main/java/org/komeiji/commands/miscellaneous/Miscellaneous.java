@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.komeiji.commands.commands.CustomCommands;
 import org.komeiji.commands.commands.GIFs;
 import org.komeiji.main.Initialization;
+import org.komeiji.main.Main;
 import org.komeiji.resources.Functions;
 
 import java.io.IOException;
@@ -16,8 +17,6 @@ import java.util.Map;
 import java.util.Random;
 
 import static org.komeiji.main.Main.prefix;
-import static org.komeiji.resources.Safe.OWNERID;
-import static org.komeiji.resources.Safe.homeurl;
 
 public class Miscellaneous extends ListenerAdapter {
     static String alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -56,7 +55,7 @@ public class Miscellaneous extends ListenerAdapter {
             try {
                 Functions.sendFileMessage(
                         m.getChannel(),
-                        homeurl + "files/botgifs/spongebob.jpg",
+                        Main.safe.get("homeurl") + "files/botgifs/spongebob.jpg",
                         "spongebob.jpg",
                         out.toString()
                 );
@@ -87,12 +86,12 @@ public class Miscellaneous extends ListenerAdapter {
     }
 
     static void reloadcustom(Message m) {
-        if (m.getAuthor().getIdLong() == OWNERID) {
+        if (m.getAuthor().getIdLong() == Long.parseLong(Main.safe.get("OWNERID"))) {
             HashMap<String, Long> commands = new HashMap<>();
             try {
                 commands = Initialization.loadCustomCommands();
             } catch (SQLException ex) {
-                Functions.directMessage(OWNERID, "```" + ex.toString() + "```");
+                Functions.directMessage(Long.parseLong(Main.safe.get("OWNERID")), "```" + ex.toString() + "```");
             }
             CustomCommands.customcommands = commands;
             m.addReaction("\u2705").queue();
@@ -100,12 +99,12 @@ public class Miscellaneous extends ListenerAdapter {
     }
 
     static void reloadgifs(Message m) {
-        if (m.getAuthor().getIdLong() == OWNERID) {
+        if (m.getAuthor().getIdLong() == Long.parseLong(Main.safe.get("OWNERID"))) {
             ArrayList<String> commands = new ArrayList<>();
             try {
                 commands = Initialization.loadGifCommands();
             } catch (SQLException ex) {
-                Functions.directMessage(OWNERID, "```" + ex.toString() + "```");
+                Functions.directMessage(Long.parseLong(Main.safe.get("OWNERID")), "```" + ex.toString() + "```");
             }
             GIFs.gifs = commands;
             m.addReaction("\u2705").queue();

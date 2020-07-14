@@ -1,11 +1,6 @@
 package org.komeiji.commands.miscellaneous;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import org.komeiji.resources.Functions;
-import org.komeiji.resources.Safe;
+import net.dv8tion.jda.api.entities.Message;
 
 import java.io.IOException;
 
@@ -24,15 +19,15 @@ class result {
 }
 
 public class SourceFinder {
-    public static void source(String url) throws IOException {
-        String search = "https://saucenao.com/search.php?api_key=" + Safe.SauceNAOKey + "db=107221536&output_type=2&testmode=1&numres=16&url=" + url;
-        System.out.println(search);
-        String json = Functions.toString(search);
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonObject results = gson.fromJson(json, JsonObject.class);
-
-        for (JsonElement element : results.getAsJsonArray("results"))
-            System.out.println(element);
+    public static void source(Message m) throws IOException {
+//        String search = "https://saucenao.com/search.php?api_key=" + safe.get("SauceNAOKey") + "db=107221536&output_type=2&testmode=1&numres=16&url=" + url;
+//        System.out.println(search);
+//        String json = Functions.toString(search);
+//
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        JsonObject results = gson.fromJson(json, JsonObject.class);
+//
+//        for (JsonElement element : results.getAsJsonArray("results"))
+//            System.out.println(element);
     }
 }

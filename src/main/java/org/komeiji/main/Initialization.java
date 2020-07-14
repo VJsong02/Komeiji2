@@ -1,8 +1,14 @@
 package org.komeiji.main;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import org.komeiji.commands.miscellaneous.Miscellaneous;
 import org.komeiji.commands.miscellaneous.SourceFinder;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +16,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Initialization {
+    public static void readConfig() throws FileNotFoundException {
+        JsonReader reader = new JsonReader(new FileReader("./config.json"));
+        JsonObject object = JsonParser.parseReader(reader).getAsJsonObject();
+        Set<Map.Entry<String, JsonElement>> entries = object.entrySet();
+        for (Map.Entry<String, JsonElement> entry : entries)
+            Main.safe.put(entry.getKey(), entry.getValue().getAsString());
+    }
+
     public static void addToCommands(Class<?> c) {
         for (Method m : c.getDeclaredMethods()) {
             m.setAccessible(true);
