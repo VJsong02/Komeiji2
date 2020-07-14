@@ -1,28 +1,29 @@
 package org.komeiji.commands.miscellaneous;
 
-import groovy.lang.GroovyShell;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.komeiji.commands.commands.CustomCommands;
+import org.komeiji.commands.commands.GIFs;
+import org.komeiji.main.Initialization;
+import org.komeiji.main.Main;
 import org.komeiji.resources.Functions;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static org.komeiji.main.Main.prefix;
-import static org.komeiji.resources.Safe.OWNERID;
-import static org.komeiji.resources.Safe.homeurl;
 
 public class Miscellaneous extends ListenerAdapter {
-    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    static String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    HashMap<String, String> numbers = new HashMap<>() {
+    static Map<String, String> numbers = new HashMap<>() {
         private static final long serialVersionUID = 1L;
+
         {
             put("1", ":one:");
             put("2", ":two:");
@@ -37,78 +38,76 @@ public class Miscellaneous extends ListenerAdapter {
         }
     };
 
-    public void onMessageReceived(MessageReceivedEvent e) {
-        if (!e.getAuthor().isBot()) {
-            // assign commonly used variables for brevity
-            Message m = e.getMessage();
-            MessageChannel c = e.getChannel();
-            User u = e.getAuthor();
+    // ping, gets time between message creation and time received by serverqq
+    static void ping(Message m) {
+        m.getChannel().sendMessage((OffsetDateTime.now().getNano() - m.getTimeCreated().getNano()) / 1000000 + " ms").queue();
+    }
 
-            // ping, time between own server and discord
-            if (m.getContentDisplay().equals(prefix + "ping"))
-                c.sendMessage((OffsetDateTime.now().getNano() - m.getTimeCreated().getNano()) / 1000000 + " ms").queue();
-
-            // randcaps, randomizes capitalization and sends resulting text with a spongebob image
-            else if (m.getContentDisplay().startsWith(prefix + "randcaps")) {
-                if (m.getContentDisplay().length() > 9) {
-                    String message = m.getContentDisplay().substring(prefix.length() + 8);
-                    StringBuilder out = new StringBuilder();
-                    for (int i = 0; i < message.length(); i++) {
-                        out.append(new Random().nextBoolean() ? Character.toUpperCase(message.charAt(i))
-                                : Character.toLowerCase(message.charAt(i)));
-                    }
-                    try {
-                        Functions.sendFileMessage(
-                                c,
-                                homeurl + "files/botgifs/spongebob.jpg",
-                                "spongebob.jpg",
-                                out.toString()
-                        );
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                }
+    // randcaps, randomizes capitalization and sends resulting text with a spongebob image
+    static void randcaps(Message m) {
+        if (m.getContentDisplay().length() > 9) {
+            String message = m.getContentDisplay().substring(prefix.length() + 8);
+            StringBuilder out = new StringBuilder();
+            for (int i = 0; i < message.length(); i++) {
+                out.append(new Random().nextBoolean() ? Character.toUpperCase(message.charAt(i))
+                        : Character.toLowerCase(message.charAt(i)));
             }
-
-            // regindicate, turns a message into its emoji equivalent
-            else if (m.getContentDisplay().startsWith(prefix + "regindicate")) {
-                String input = m.getContentDisplay().substring(prefix.length() + 11).toLowerCase();
-                StringBuilder out = new StringBuilder();
-                for (int i = 0; i < input.length(); i++) {
-                    if (alphabet.contains("" + input.charAt(i))) {
-                        out.append(":regional_indicator_").append(input.charAt(i)).append(":");
-                    } else if (numbers.containsKey("" + input.charAt(i))) {
-                        out.append((numbers.get(input.charAt(i) + "")));
-                    } else if (input.charAt(i) == '!') {
-                        out.append(":exclamation:");
-                    } else if (input.charAt(i) == '?') {
-                        out.append(":question:");
-                    } else {
-                        out.append(input.charAt(i));
-                    }
-                }
-                c.sendMessage(out.toString()).queue();
+            try {
+                Functions.sendFileMessage(
+                        m.getChannel(),
+                        Main.safe.get("homeurl") + "files/botgifs/spongebob.jpg",
+                        "spongebob.jpg",
+                        out.toString()
+                );
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
+        }
+    }
 
-            // groovy parser
-            else if (m.getContentDisplay().startsWith(prefix + "eval") && u.getIdLong() == OWNERID) {
-                GroovyShell g = new GroovyShell();
-
-                g.setProperty("c", c);
-                g.setProperty("e", e);
-                g.setProperty("m", m);
-
-                try {
-                    Object result = g.evaluate(m.getContentRaw().substring(prefix.length() + 4));
-                    if (result instanceof Message) c.sendMessage((Message) result).queue();
-                    else if (result instanceof MessageEmbed) c.sendMessage((MessageEmbed) result).queue();
-                    else c.sendMessage(result.toString()).queue();
-
-                    m.addReaction("\u2705").queue();
-                } catch (Exception ex) {
-                    u.openPrivateChannel().complete().sendMessage("```" + ex.toString() + "```").queue();
-                }
+    // regindicate, turns a message into its emoji equivalent
+    static void regindicate(Message m) {
+        String input = m.getContentDisplay().substring(prefix.length() + 11).toLowerCase();
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            if (alphabet.contains("" + input.charAt(i))) {
+                out.append(":regional_indicator_").append(input.charAt(i)).append(":");
+            } else if (numbers.containsKey("" + input.charAt(i))) {
+                out.append((numbers.get(input.charAt(i) + "")));
+            } else if (input.charAt(i) == '!') {
+                out.append(":exclamation:");
+            } else if (input.charAt(i) == '?') {
+                out.append(":question:");
+            } else {
+                out.append(input.charAt(i));
             }
+        }
+        m.getChannel().sendMessage(out.toString()).queue();
+    }
+
+    static void reloadcustom(Message m) {
+        if (m.getAuthor().getIdLong() == Long.parseLong(Main.safe.get("OWNERID"))) {
+            HashMap<String, Long> commands = new HashMap<>();
+            try {
+                commands = Initialization.loadCustomCommands();
+            } catch (SQLException ex) {
+                Functions.directMessage(Long.parseLong(Main.safe.get("OWNERID")), "```" + ex.toString() + "```");
+            }
+            CustomCommands.customcommands = commands;
+            m.addReaction("\u2705").queue();
+        }
+    }
+
+    static void reloadgifs(Message m) {
+        if (m.getAuthor().getIdLong() == Long.parseLong(Main.safe.get("OWNERID"))) {
+            ArrayList<String> commands = new ArrayList<>();
+            try {
+                commands = Initialization.loadGifCommands();
+            } catch (SQLException ex) {
+                Functions.directMessage(Long.parseLong(Main.safe.get("OWNERID")), "```" + ex.toString() + "```");
+            }
+            GIFs.gifs = commands;
+            m.addReaction("\u2705").queue();
         }
     }
 }
