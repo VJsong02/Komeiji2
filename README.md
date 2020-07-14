@@ -1,11 +1,13 @@
 # Komeiji2
-My third Discord bot
+My third Discord bot, now somewhat more dynamic and modular than the second one.
 ```
 Libraries used (all Googleable):
 Discord API wrapper : JDA 
 JDA extra features  : JDA Utilities
-Eval and parse      : Apache Commons IO
-JSON library        : Gson by Google
+Code evaluation     : Groovy
+JSON library        : Gson
 Web scraper library : Jsoup
-Logging library     : SLF4J
+Logging library     : slf4j-simple
+Database interface  : HikariCP
+Database            : MySQL
 ```
