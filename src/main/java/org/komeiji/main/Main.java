@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import org.komeiji.commands.commands.CustomCommands;
 import org.komeiji.commands.commands.GIFs;
+import org.komeiji.resources.Safe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,16 +19,16 @@ public class Main {
     public static final String prefix = "!";
     public static final Color clr = new Color(118, 131, 41);
     public static final Logger logger = LoggerFactory.getLogger("Komeiji");
-    public static HashMap<String, String> safe = new HashMap<>();
+    public static final Safe safe = Initialization.readConfig();
 
     public static JDA jda;
 
-    public static void main(String[] args) throws LoginException, InterruptedException, SQLException, FileNotFoundException {
-        logger.info("Version 3 beta 1");
+    public static void main(String[] args) throws LoginException, InterruptedException, SQLException {
+        logger.info("Version 3 beta 3");
+
+        System.out.println(safe.DBURL);
 
         logger.info("Initializing...");
-        Initialization.readConfig();
-        logger.info("Loaded configuration file.");
         Initialization.loadCommands();
         logger.info(CommandListener.commands.keySet().size() + " commands loaded.");
         CustomCommands.customcommands = Initialization.loadCustomCommands();
@@ -35,7 +36,7 @@ public class Main {
         GIFs.gifs = Initialization.loadGifCommands();
         logger.info(GIFs.gifs.size() + " gifs found.");
 
-        jda = JDABuilder.createDefault(safe.get("MAINBOTKEY"))
+        jda = JDABuilder.createDefault(safe.TESTBOTKEY)
                 .addEventListeners(
                         new CommandListener(),
 

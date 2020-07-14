@@ -11,9 +11,9 @@ public class DataSource {
     private static final HikariDataSource ds;
 
     static {
-        config.setJdbcUrl(Main.safe.get("url"));
-        config.setUsername(Main.safe.get("dbUsername"));
-        config.setPassword(Main.safe.get("dbPassword"));
+        config.setJdbcUrl(Main.safe.DBURL);
+        config.setUsername(Main.safe.DBUSERNAME);
+        config.setPassword(Main.safe.DBPASSWORD);
 
         ds = new HikariDataSource(config);
     }
