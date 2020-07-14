@@ -1,5 +1,6 @@
 /src/main/java/org/komeiji/resources/Safe.java
-/out
-/META_INF
-/.gradle
-/build
+/out/
+/META_INF/
+/.gradle/
+/build/
+/src/main/java/META-INF/
