@@ -1,2 +1,5 @@
 /src/main/java/org/komeiji/resources/Safe.java
-/out/*
+/out
+/META_INF
+/.gradle
+/build
