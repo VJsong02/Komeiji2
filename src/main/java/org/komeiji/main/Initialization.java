@@ -1,9 +1,6 @@
 package org.komeiji.main;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import org.komeiji.commands.miscellaneous.Miscellaneous;
 import org.komeiji.commands.miscellaneous.SourceFinder;
@@ -18,8 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class Initialization {
     public static Safe readConfig() {

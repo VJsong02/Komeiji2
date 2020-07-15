@@ -69,7 +69,7 @@ public class CustomCommands extends ListenerAdapter {
                     c.sendMessage("You're supposed to write `!removecommand` then its name...").queue();
 
 
-            else if (customcommands.containsKey(m.getContentDisplay().substring(1))) {
+            else if (m.getContentDisplay().startsWith("!") && customcommands.containsKey(m.getContentDisplay().substring(1))) {
                 try {
                     CustomMessage cm = CustomFunctions.fetchCustomCommand(m.getContentDisplay().substring(1));
 
