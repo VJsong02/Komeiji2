@@ -1,29 +1,17 @@
 package org.komeiji.resources;
 
 public class Safe {
-    public Safe(long a, String b, String c, String d, String e, String f, String g, String h, String i) {
-        this.OWNERID = a;
-        this.MAINBOTKEY = b;
-        this.TESTBOTKEY = c;
-        this.WOLFRAMALPHAKEY = d;
-        this.SAUCENAOKEY = e;
-        this.DBURL = f;
-        this.DBUSERNAME = g;
-        this.DBPASSWORD = h;
-        this.HOMEURL = i;
-    }
+    public long OWNERID;
 
-    public final long OWNERID;
+    public String MAINBOTKEY;
+    public String TESTBOTKEY;
 
-    public final String MAINBOTKEY;
-    public final String TESTBOTKEY;
+    public String WOLFRAMALPHAKEY;
+    public String SAUCENAOKEY;
 
-    public final String WOLFRAMALPHAKEY;
-    public final String SAUCENAOKEY;
+    public String DBURL;
+    public String DBUSERNAME;
+    public String DBPASSWORD;
 
-    public final String DBURL;
-    public final String DBUSERNAME;
-    public final String DBPASSWORD;
-
-    public final String HOMEURL;
+    public String HOMEURL;
 }

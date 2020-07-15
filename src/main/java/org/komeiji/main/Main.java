@@ -18,16 +18,17 @@ public class Main {
     public static final String prefix = "!";
     public static final Color clr = new Color(118, 131, 41);
     public static final Logger logger = LoggerFactory.getLogger("Komeiji");
-    public static final Safe safe = Initialization.readConfig();
 
+    public static Safe safe;
     public static JDA jda;
 
     public static void main(String[] args) throws LoginException, InterruptedException, SQLException {
         logger.info(VERSION);
 
-        System.out.println(safe.DBURL);
-
         logger.info("Initializing...");
+        Initialization.readConfig();
+        System.out.println(safe.DBURL);
+        logger.info("Loaded configuration file.");
         Initialization.loadCommands();
         logger.info(CommandListener.commands.keySet().size() + " commands loaded.");
         CustomCommands.customcommands = Initialization.loadCustomCommands();
@@ -35,7 +36,7 @@ public class Main {
         GIFs.gifs = Initialization.loadGifCommands();
         logger.info(GIFs.gifs.size() + " gifs found.");
 
-        jda = JDABuilder.createDefault(safe.TESTBOTKEY)
+        jda = JDABuilder.createDefault(safe.MAINBOTKEY)
                 .addEventListeners(
                         new CommandListener(),
 

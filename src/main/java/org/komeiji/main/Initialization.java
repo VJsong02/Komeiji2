@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Initialization {
-    public static Safe readConfig() {
+    public static void readConfig() {
         Gson gson = new Gson();
         JsonReader reader = null;
         try {
@@ -26,7 +26,7 @@ public class Initialization {
             Main.logger.error("Config file not found.");
             System.exit(-1);
         }
-        return gson.fromJson(reader, Safe.class);
+        Main.safe = gson.fromJson(reader, Safe.class);
     }
 
     public static void addToCommands(Class<?> c) {
