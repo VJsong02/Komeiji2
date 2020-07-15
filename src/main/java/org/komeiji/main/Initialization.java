@@ -1,11 +1,13 @@
 package org.komeiji.main;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import org.komeiji.commands.miscellaneous.Miscellaneous;
 import org.komeiji.commands.miscellaneous.SourceFinder;
+import org.komeiji.resources.Safe;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,12 +22,16 @@ import java.util.Map;
 import java.util.Set;
 
 public class Initialization {
-    public static void readConfig() throws FileNotFoundException {
-        JsonReader reader = new JsonReader(new FileReader("./config.json"));
-        JsonObject object = JsonParser.parseReader(reader).getAsJsonObject();
-        Set<Map.Entry<String, JsonElement>> entries = object.entrySet();
-        for (Map.Entry<String, JsonElement> entry : entries)
-            Main.safe.put(entry.getKey(), entry.getValue().getAsString());
+    public static Safe readConfig() {
+        Gson gson = new Gson();
+        JsonReader reader = null;
+        try {
+            reader = new JsonReader(new FileReader("./config.json"));
+        } catch (FileNotFoundException ex) {
+            Main.logger.error("Config file not found.");
+            System.exit(-1);
+        }
+        return gson.fromJson(reader, Safe.class);
     }
 
     public static void addToCommands(Class<?> c) {

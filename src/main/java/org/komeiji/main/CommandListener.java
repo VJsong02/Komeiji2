@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import static org.komeiji.main.Main.prefix;
+import static org.komeiji.main.Main.*;
 
 public class CommandListener extends ListenerAdapter {
     public static HashMap<String, Method> commands = new HashMap<>();
@@ -27,7 +27,7 @@ public class CommandListener extends ListenerAdapter {
                 } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
                     illegalAccessException.printStackTrace();
                 }
-            } else if (e.getMessage().getContentDisplay().startsWith(prefix + "eval") && e.getAuthor().getIdLong() == Long.parseLong(Main.safe.get("OWNERID"))) {
+            } else if (e.getMessage().getContentDisplay().startsWith(prefix + "eval") && e.getAuthor().getIdLong() == safe.OWNERID) {
                 GroovyShell g = new GroovyShell();
 
                 g.setProperty("e", e);
@@ -46,7 +46,7 @@ public class CommandListener extends ListenerAdapter {
 
                     e.getMessage().addReaction("\u2705").queue();
                 } catch (Exception ex) {
-                    Functions.directMessage(Long.parseLong(Main.safe.get("OWNERID")), "```" + ex.toString() + "```");
+                    Functions.directMessage(safe.OWNERID, "```" + ex.toString() + "```");
                 }
             }
         }
