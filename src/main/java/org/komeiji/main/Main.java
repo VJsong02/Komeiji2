@@ -14,7 +14,7 @@ import java.awt.*;
 import java.sql.SQLException;
 
 public class Main {
-    public static final String VERSION = "Version 3 beta 4";
+    public static final String VERSION = "Version 3 beta 4.1";
     public static final String prefix = "!";
     public static final Color clr = new Color(118, 131, 41);
     public static final Logger logger = LoggerFactory.getLogger("Komeiji");

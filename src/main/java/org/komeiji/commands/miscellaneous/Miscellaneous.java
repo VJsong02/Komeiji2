@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.komeiji.commands.commands.CustomCommands;
 import org.komeiji.commands.commands.GIFs;
 import org.komeiji.main.Initialization;
-import org.komeiji.main.Main;
 import org.komeiji.resources.Functions;
 
 import java.io.IOException;
@@ -38,9 +37,14 @@ public class Miscellaneous extends ListenerAdapter {
         }
     };
 
-    // ping, gets time between message creation and time received by serverqq
+    // ping, gets time between message creation and time received by server
     static void ping(Message m) {
         m.getChannel().sendMessage((OffsetDateTime.now().getNano() - m.getTimeCreated().getNano()) / 1000000 + " ms").queue();
+    }
+
+    // get current bot version
+    static void version(Message m) {
+        m.getChannel().sendMessage(VERSION).queue();
     }
 
     // randcaps, randomizes capitalization and sends resulting text with a spongebob image
