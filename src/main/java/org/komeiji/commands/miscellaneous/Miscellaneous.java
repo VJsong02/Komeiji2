@@ -18,9 +18,9 @@ import java.util.Random;
 import static org.komeiji.main.Main.*;
 
 public class Miscellaneous extends ListenerAdapter {
-    static String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    private static final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    static Map<String, String> numbers = new HashMap<>() {
+    private static final Map<String, String> numbers = new HashMap<>() {
         private static final long serialVersionUID = 1L;
 
         {

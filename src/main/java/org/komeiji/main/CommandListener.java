@@ -13,7 +13,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import static org.komeiji.main.Main.*;
+import static org.komeiji.main.Main.prefix;
+import static org.komeiji.main.Main.safe;
 
 public class CommandListener extends ListenerAdapter {
     public static HashMap<String, Method> commands = new HashMap<>();
@@ -45,6 +46,7 @@ public class CommandListener extends ListenerAdapter {
                     else e.getChannel().sendMessage(o.toString()).queue();
 
                     e.getMessage().addReaction("\u2705").queue();
+                } catch (NullPointerException ignored) {
                 } catch (Exception ex) {
                     Functions.directMessage(safe.OWNERID, "```" + ex.toString() + "```");
                 }
