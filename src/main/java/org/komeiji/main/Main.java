@@ -2,9 +2,12 @@ package org.komeiji.main;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Message;
 import org.komeiji.commands.commands.CustomCommands;
 import org.komeiji.commands.commands.GIFs;
+import org.komeiji.commands.miscellaneous.SourceFinder;
 import org.komeiji.resources.Safe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +39,7 @@ public class Main {
         GIFs.gifs = Initialization.loadGifCommands();
         logger.info(GIFs.gifs.size() + " gifs found.");
 
-        jda = JDABuilder.createDefault(safe.MAINBOTKEY)
+        jda = JDABuilder.createDefault(safe.TESTBOTKEY)
                 .addEventListeners(
                         new CommandListener(),
 
