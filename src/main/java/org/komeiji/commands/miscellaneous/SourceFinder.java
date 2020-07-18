@@ -1,10 +1,12 @@
 package org.komeiji.commands.miscellaneous;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import org.komeiji.main.Main;
+import org.komeiji.resources.Functions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,25 +17,92 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.komeiji.main.Main.prefix;
+import static org.komeiji.main.Main.safe;
 
 class Results {
-    private Result[] results;
+    private List<Result> results;
+
+    public List<Result> getResults() {
+        return this.results;
+    }
 
     static class Result {
+        private Header header;
+        private Data data;
 
-
-        class header {
-            String similarity;
-            String thumbnail;
-            int index_id;
-            String index_name;
+        public Header getHeader() {
+            return header;
         }
 
-        class data {
-            String[] ext_urls;
+        public Data getData() {
+            return data;
+        }
+
+        public String getArtist() {
+            if (this.data.member_name != null)
+                return this.data.member_name;
+            else return this.data.creator;
+        }
+
+        static class Header {
+            private String similarity;
+            private String thumbnail;
+            private int index_id;
+            private String index_name;
+
+            public String getSimilarity() {
+                return similarity;
+            }
+
+            public String getThumbnail() {
+                return thumbnail;
+            }
+
+            public int getIndex_id() {
+                return index_id;
+            }
+
+            public String getIndex_name() {
+                return index_name;
+            }
+        }
+
+        static class Data {
+            private List<String> ext_urls;
+
+            private int danbooru_id;
+            private int gelbooru_id;
+            private String source;
+            private String creator;
+            private String member_name;
+
+            public List<String> getUrls() {
+                return ext_urls;
+            }
+
+            public int getDanbooruId() {
+                return this.danbooru_id;
+            }
+
+            public int getGelbooruId() {
+                return this.gelbooru_id;
+            }
+
+            public String getSource() {
+                return this.source;
+            }
+
+            public String getMemberName() {
+                return this.member_name;
+            }
+
+            public String getCreator() {
+                return this.creator;
+            }
         }
     }
 }
+
 
 class Doujin {
     private String id;
@@ -161,33 +230,41 @@ public class SourceFinder {
         else m.getChannel().sendMessage(prefix + "`g` and six numbers please.").queue();
     }
 
-//    static void source(Message m) throws IOException {
-//        m.getChannel().sendMessage("Nope, not implemented yet.").queue();
-//
-//        String url = null;
-//        if (!m.getAttachments().isEmpty())
-//            url = m.getAttachments().get(0).getUrl();
-//        else if (m.getContentDisplay().split(" ").length == 2)
-//            try {
-//                new URL(m.getContentDisplay().split(" ")[1]);
-//                url = m.getContentDisplay().split(" ")[1];
-//            } catch (MalformedURLException ex) {
-//                m.getChannel().sendMessage("Your url doesn't work.").queue();
-//            }
-//        else
-//            m.getChannel().sendMessage("`!source` and then a url. Or attach an image or something.").queue();
-//
-//        String search = "https://saucenao.com/search.php?api_key=" + safe.SAUCENAOKEY + "db=107221536&output_type=2&testmode=1&numres=16&url=" + url;
-//        System.out.println(search);
-//        String json = Functions.toString(search);
-//
-//        Gson gson = new Gson();
-//        JsonObject results = gson.fromJson(json, JsonObject.class);
-//
-//        for (JsonElement element : results.getAsJsonArray("results"))
-//            System.out.println(element);
-//
+    static void source(Message m) throws IOException {
+        String url = null;
+        if (!m.getAttachments().isEmpty())
+            url = m.getAttachments().get(0).getUrl();
+        else if (m.getContentDisplay().split(" ").length == 2)
+            try {
+                new URL(m.getContentDisplay().split(" ")[1]);
+                url = m.getContentDisplay().split(" ")[1];
+            } catch (MalformedURLException ex) {
+                m.getChannel().sendMessage("Your url doesn't work.").queue();
+            }
+        else
+            m.getChannel().sendMessage("`!source` and then a url. Or attach an image or something.").queue();
+
+        String search = "https://saucenao.com/search.php?api_key=" + safe.SAUCENAOKEY + "&dbmask=100667936&output_type=2&numres=5&url=" + url;
+        String json = Functions.toString(search);
+
+        try {
+            Gson gson = new Gson();
+            Results results = gson.fromJson(json, Results.class);
+            Results.Result result = results.getResults().get(0);
+
+            EmbedBuilder suki = new EmbedBuilder().setColor(Main.clr);
+            suki.setTitle("Source found!", result.getData().getUrls().get(0));
+            suki.setImage(result.getHeader().getThumbnail());
+            suki.addField("Artist", result.getArtist(), false);
+            suki.setFooter("Results provided by SauceNAO");
+
+            m.getChannel().sendMessage(suki.build()).queue();
+        } catch (IllegalStateException | JsonSyntaxException ex) {
+            System.out.println(search);
+            ex.printStackTrace();
+        }
+
 //        m.getChannel().sendMessage(new EmbedBuilder().setColor(Main.clr)
 //                .setImage("https://cdn.discordapp.com/attachments/269116788250247181/427875418721484800/source_pls____by_carmelo12341-dad3xtu.png").build()).queue();
-//    }
+    }
 }
