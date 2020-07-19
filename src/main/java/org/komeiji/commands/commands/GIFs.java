@@ -21,35 +21,38 @@ public class GIFs extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent e) {
         if (!e.getAuthor().isBot()) {
-            // assign commonly used variables for brevity
-            Message m = e.getMessage();
-            String[] message = m.getContentDisplay().split(" ");
-            TextChannel c = e.getTextChannel();
-            User u = e.getAuthor();
+            if (e.getMessage().getContentDisplay().startsWith(prefix)
+                    && e.getMessage().getContentDisplay().contains(" ")) {
+                // assign commonly used variables for brevity
+                Message m = e.getMessage();
+                String[] message = m.getContentDisplay().split(" ");
+                TextChannel c = e.getTextChannel();
+                User u = e.getAuthor();
 
-            if (gifs.contains(message[0].substring(prefix.length()))) {
-                try {
-                    GifMessage gm = GifFunctions.fetchGifMessage(message[0].substring(prefix.length()));
-                    String link = gm.getGifMessageFiles()[ThreadLocalRandom.current().nextInt(gm.getGifMessageFiles().length)];
-                    String text = gm.getGifMessageText().replace("[self]", u.getAsMention());
+                if (gifs.contains(message[0].substring(prefix.length()))) {
+                    try {
+                        GifMessage gm = GifFunctions.fetchGifMessage(message[0].substring(prefix.length()));
+                        String link = gm.getGifMessageFiles()[ThreadLocalRandom.current().nextInt(gm.getGifMessageFiles().length)];
+                        String text = gm.getGifMessageText().replace("[self]", u.getAsMention());
 
-                    boolean send = false;
-                    if (!gm.isNsfw())
-                        if (!gm.requiresMention())
+                        boolean send = false;
+                        if (!gm.isNsfw())
+                            if (!gm.requiresMention())
+                                send = true;
+                            else if (!m.getMentionedMembers().isEmpty()) {
+                                text = text.replace("[mention]", m.getMentionedMembers().get(0).getAsMention());
+                                send = true;
+                            } else c.sendMessage("Ping someone after the command next time you try.").queue();
+                        else if (c.isNSFW())
                             send = true;
-                        else if (!m.getMentionedMembers().isEmpty()) {
-                            text = text.replace("[mention]", m.getMentionedMembers().get(0).getAsMention());
-                            send = true;
-                        } else c.sendMessage("Ping someone after the command next time you try.").queue();
-                    else if (c.isNSFW())
-                        send = true;
-                    else c.sendMessage("You pervert.").queue();
+                        else c.sendMessage("You pervert.").queue();
 
-                    if (send)
-                        Functions.sendFileMessage(c, link, link.split("/")[link.split("/").length - 1], text);
+                        if (send)
+                            Functions.sendFileMessage(c, link, link.split("/")[link.split("/").length - 1], text);
 
-                } catch (SQLException | IOException throwables) {
-                    throwables.printStackTrace();
+                    } catch (SQLException | IOException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             }
         }
