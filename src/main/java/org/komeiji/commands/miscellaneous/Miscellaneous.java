@@ -1,7 +1,6 @@
 package org.komeiji.commands.miscellaneous;
 
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.komeiji.commands.commands.CustomCommands;
 import org.komeiji.commands.commands.GIFs;
 import org.komeiji.main.Initialization;
@@ -17,7 +16,7 @@ import java.util.Random;
 
 import static org.komeiji.main.Main.*;
 
-public class Miscellaneous extends ListenerAdapter {
+public class Miscellaneous {
     private static final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
     private static final Map<String, String> numbers = new HashMap<>() {

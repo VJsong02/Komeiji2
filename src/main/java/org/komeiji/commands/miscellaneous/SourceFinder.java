@@ -179,6 +179,8 @@ class Doujin {
 }
 
 public class SourceFinder {
+    public static String DBMASK = "100667936";
+
     static void g(Message m) {
         if (m.getContentDisplay().split(" ").length == 2)
             try {
@@ -244,7 +246,8 @@ public class SourceFinder {
         else
             m.getChannel().sendMessage("`!source` and then a url. Or attach an image or something.").queue();
 
-        String search = "https://saucenao.com/search.php?api_key=" + safe.SAUCENAOKEY + "&dbmask=100667936&output_type=2&numres=5&url=" + url;
+        String search = "https://saucenao.com/search.php?api_key=" + safe.SAUCENAOKEY
+                + "&dbmask=" + DBMASK + "&output_type=2&numres=5&url=" + url;
         String json = Functions.toString(search);
 
         try {

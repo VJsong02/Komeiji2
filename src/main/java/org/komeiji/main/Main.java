@@ -15,7 +15,7 @@ import java.awt.*;
 import java.sql.SQLException;
 
 public class Main {
-    public static final String VERSION = "Version 3 beta 7";
+    public static final String VERSION = "Version 3 beta 7.1";
     public static final String prefix = "!";
     public static final Color clr = new Color(118, 131, 41);
     public static final Logger logger = LoggerFactory.getLogger("Komeiji");
@@ -25,6 +25,7 @@ public class Main {
 
     public static void main(String[] args) throws LoginException, InterruptedException, SQLException {
         logger.info(VERSION);
+        logger.info("Prefix: " + prefix);
 
         logger.info("Initializing...");
         Initialization.readConfig();

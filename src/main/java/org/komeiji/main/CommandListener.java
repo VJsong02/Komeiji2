@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.komeiji.commands.commands.CustomCommands;
 import org.komeiji.commands.commands.GIFs;
+import org.komeiji.commands.miscellaneous.SourceFinder;
 import org.komeiji.resources.Functions;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,6 +39,7 @@ public class CommandListener extends ListenerAdapter {
                 g.setProperty("commands", commands);
                 g.setProperty("customCommands", CustomCommands.customcommands);
                 g.setProperty("GIFs", GIFs.gifs);
+                g.setProperty("dbmask", SourceFinder.DBMASK);
 
                 try {
                     Object o = g.evaluate(e.getMessage().getContentRaw().substring(prefix.length() + 4));
