@@ -14,4 +14,5 @@ public class Safe {
     public String DBPASSWORD;
 
     public String HOMEURL;
+    public String DBMASK;
 }

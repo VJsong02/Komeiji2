@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class Main {
     public static final String VERSION = "Version 3 beta 7.1";
-    public static final String prefix = "!";
+    public static final String prefix = "t!";
     public static final Color clr = new Color(118, 131, 41);
     public static final Logger logger = LoggerFactory.getLogger("Komeiji");
 
@@ -37,7 +37,7 @@ public class Main {
         GIFs.gifs = Initialization.loadGifCommands();
         logger.info(GIFs.gifs.size() + " gifs found.");
 
-        jda = JDABuilder.createDefault(safe.MAINBOTKEY)
+        jda = JDABuilder.createDefault(safe.TESTBOTKEY)
                 .addEventListeners(
                         new CommandListener(),
 
