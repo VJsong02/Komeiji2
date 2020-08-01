@@ -1,6 +1,7 @@
 package org.komeiji.listeners;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -62,7 +63,7 @@ public class LogsListener extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent e) {
         if (!e.getAuthor().isBot()) {
-            if (e.getAuthor().getIdLong() == e.getGuild().getOwnerIdLong() || e.getAuthor().getIdLong() == safe.OWNERID) {
+            if (e.getMember().hasPermission(Permission.MANAGE_SERVER) || e.getAuthor().getIdLong() == safe.OWNERID) {
                 if (e.getMessage().getContentDisplay().startsWith(prefix + "log")) {
                     if (log(e.getGuild().getIdLong(), e.getChannel().getIdLong()))
                         e.getMessage().addReaction("\u2705").queue();
