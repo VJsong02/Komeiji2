@@ -8,6 +8,7 @@ public class Safe {
 
     public String WOLFRAMALPHAKEY;
     public String SAUCENAOKEY;
+    public String OWMKEY;
 
     public String DBURL;
     public String DBUSERNAME;

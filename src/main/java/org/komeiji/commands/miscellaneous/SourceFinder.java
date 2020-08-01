@@ -103,7 +103,6 @@ class Results {
     }
 }
 
-
 class Doujin {
     private String id;
     private String media_id;
@@ -254,19 +253,20 @@ public class SourceFinder {
             Results results = gson.fromJson(json, Results.class);
             Results.Result result = results.getResults().get(0);
 
-            EmbedBuilder suki = new EmbedBuilder().setColor(Main.clr);
-            suki.setTitle("Source found!", result.getData().getUrls().get(0));
-            suki.setImage(result.getHeader().getThumbnail());
-            suki.addField("Artist", result.getArtist(), false);
-            suki.setFooter("Results provided by SauceNAO");
+            if (Float.parseFloat(result.getHeader().getSimilarity()) > 50) {
+                EmbedBuilder suki = new EmbedBuilder().setColor(Main.clr);
+                suki.setTitle("Source found!", result.getData().getUrls().get(0));
+                suki.setImage(result.getHeader().getThumbnail());
+                suki.addField("Artist", result.getArtist(), false);
+                suki.setFooter("Results provided by SauceNAO");
 
-            m.getChannel().sendMessage(suki.build()).queue();
+                m.getChannel().sendMessage(suki.build()).queue();
+            } else
+                m.getChannel().sendMessage(new EmbedBuilder().setColor(Main.clr).setImage("https://cdn.discordapp.com/attachments/269116788250247181/427875418721484800/source_pls____by_carmelo12341-dad3xtu.png").build()).queue();
+
         } catch (IllegalStateException | JsonSyntaxException ex) {
             System.out.println(search);
             ex.printStackTrace();
         }
-
-//        m.getChannel().sendMessage(new EmbedBuilder().setColor(Main.clr)
-//                .setImage("https://cdn.discordapp.com/attachments/269116788250247181/427875418721484800/source_pls____by_carmelo12341-dad3xtu.png").build()).queue();
     }
 }

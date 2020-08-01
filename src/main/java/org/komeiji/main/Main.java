@@ -17,7 +17,7 @@ import java.awt.*;
 import java.sql.SQLException;
 
 public class Main {
-    public static final String VERSION = "Version 3.1.1";
+    public static final String VERSION = "Version 3.2";
     public static final String prefix = "!";
     public static final Color clr = new Color(118, 131, 41);
     public static final Logger logger = LoggerFactory.getLogger("Komeiji");
@@ -34,12 +34,13 @@ public class Main {
         logger.info("Loaded configuration file.");
         Initialization.loadCommands();
         logger.info(CommandListener.commands.keySet().size() + " commands loaded.");
-        Initialization.getLogChannels();
-        logger.info("Loaded logging channels.");
         CustomCommands.customcommands = Initialization.loadCustomCommands();
         logger.info(CustomCommands.customcommands.size() + " custom commands loaded.");
         GIFs.gifs = Initialization.loadGifCommands();
         logger.info(GIFs.gifs.size() + " gifs found.");
+
+        Initialization.getLogChannels();
+        Initialization.loadWeatherLocations();
 
         jda = JDABuilder.createDefault(safe.MAINBOTKEY)
                 .addEventListeners(

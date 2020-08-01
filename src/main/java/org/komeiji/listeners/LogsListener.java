@@ -21,10 +21,6 @@ import java.util.Queue;
 import static org.komeiji.main.Main.prefix;
 import static org.komeiji.main.Main.safe;
 
-abstract class CachedMessage implements Message {
-
-}
-
 public class LogsListener extends ListenerAdapter {
     public static HashMap<Long, Message> messages = new HashMap<>();
     public static Queue<Long> messageids = new LinkedList<>();

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import org.komeiji.commands.miscellaneous.Miscellaneous;
 import org.komeiji.commands.miscellaneous.SourceFinder;
+import org.komeiji.commands.miscellaneous.Weather;
 import org.komeiji.listeners.CommandListener;
 import org.komeiji.listeners.LogsListener;
 import org.komeiji.resources.Safe;
@@ -41,6 +42,7 @@ public class Initialization {
     public static void loadCommands() {
         addToCommands(Miscellaneous.class);
         addToCommands(SourceFinder.class);
+        addToCommands(Weather.class);
     }
 
     public static void getLogChannels() throws SQLException {
@@ -51,6 +53,17 @@ public class Initialization {
              ResultSet r = p.executeQuery()) {
             while (r.next())
                 LogsListener.guilds.put(r.getLong("guild"), r.getLong("channel"));
+        }
+    }
+
+    public static void loadWeatherLocations() throws SQLException {
+        String query = "SELECT * FROM weather";
+
+        try (Connection c = DataSource.getConnection();
+             PreparedStatement p = c.prepareStatement(query);
+             ResultSet r = p.executeQuery()) {
+            while (r.next())
+                Weather.users.put(r.getLong("userid"), r.getString("place"));
         }
     }
 
