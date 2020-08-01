@@ -14,7 +14,7 @@ public class CustomFunctions {
             p.setString(2, link);
             p.setString(3, author);
             p.setLong(4, userid);
-            p.setDate(5, new Date(new java.util.Date().getTime()));
+            p.setTimestamp(5, new Timestamp(new java.util.Date().getTime()));
             p.execute();
         }
     }
