@@ -1,4 +1,4 @@
-package org.komeiji.main;
+package org.komeiji.listeners;
 
 import groovy.lang.GroovyShell;
 import net.dv8tion.jda.api.entities.Message;
@@ -39,6 +39,7 @@ public class CommandListener extends ListenerAdapter {
                 g.setProperty("customCommands", CustomCommands.customcommands);
                 g.setProperty("GIFs", GIFs.gifs);
                 g.setProperty("safe", safe);
+                g.setProperty("logs", LogsListener.messages);
 
                 try {
                     Object o = g.evaluate(e.getMessage().getContentRaw().substring(prefix.length() + 4));

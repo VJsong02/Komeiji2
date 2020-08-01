@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import org.komeiji.commands.commands.CustomCommands;
 import org.komeiji.commands.commands.GIFs;
 import org.komeiji.commands.commands.WolframAlpha;
+import org.komeiji.listeners.CommandListener;
+import org.komeiji.listeners.LogsListener;
 import org.komeiji.resources.Safe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +17,8 @@ import java.awt.*;
 import java.sql.SQLException;
 
 public class Main {
-    public static final String VERSION = "Version 3 beta 7.1";
-    public static final String prefix = "t!";
+    public static final String VERSION = "Version 3.0.1";
+    public static final String prefix = "!";
     public static final Color clr = new Color(118, 131, 41);
     public static final Logger logger = LoggerFactory.getLogger("Komeiji");
 
@@ -37,9 +39,10 @@ public class Main {
         GIFs.gifs = Initialization.loadGifCommands();
         logger.info(GIFs.gifs.size() + " gifs found.");
 
-        jda = JDABuilder.createDefault(safe.TESTBOTKEY)
+        jda = JDABuilder.createDefault(safe.MAINBOTKEY)
                 .addEventListeners(
                         new CommandListener(),
+                        new LogsListener(),
 
                         new WolframAlpha(),
                         new CustomCommands(),
