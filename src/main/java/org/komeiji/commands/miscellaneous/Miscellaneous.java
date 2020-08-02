@@ -113,4 +113,11 @@ public class Miscellaneous {
             m.addReaction("\u2705").queue();
         }
     }
+
+    static void reloadconfig(Message m) {
+        if (m.getAuthor().getIdLong() == safe.OWNERID) {
+            Initialization.readConfig();
+            m.addReaction("\u2705").queue();
+        }
+    }
 }
