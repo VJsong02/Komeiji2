@@ -15,13 +15,15 @@ import org.slf4j.LoggerFactory;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class Main {
     public static final String VERSION = "Version 3.2.1";
-    public static final String prefix = "t!";
+    public static final String prefix = "!";
     public static final Color clr = new Color(118, 131, 41);
     public static final Logger logger = LoggerFactory.getLogger("Komeiji");
 
+    public static long startTime;
     public static Safe safe;
     public static JDA jda;
 
@@ -42,7 +44,7 @@ public class Main {
         Initialization.getLogChannels();
         Initialization.loadWeatherLocations();
 
-        jda = JDABuilder.createDefault(safe.TESTBOTKEY)
+        jda = JDABuilder.createDefault(safe.MAINBOTKEY)
                 .addEventListeners(
                         new CommandListener(),
                         new LogsListener(),
@@ -55,6 +57,9 @@ public class Main {
                 .build().awaitReady();
 
         logger.info("Initialization complete.");
+
+        Date date = new Date();
+        startTime = date.getTime();
     }
 }
 

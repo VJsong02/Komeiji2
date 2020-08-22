@@ -36,10 +36,11 @@ public class CustomFunctions {
         p.setString(1, name);
         ResultSet r = p.executeQuery();
         r.next();
-        return new CustomMessage(r.getString("link"),
+        CustomMessage cm = new CustomMessage(r.getString("link"),
                 r.getDate("date"),
                 r.getString("author"),
                 r.getLong("userid"));
-
+        r.close();
+        return cm;
     }
 }

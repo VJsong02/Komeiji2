@@ -9,10 +9,8 @@ import org.komeiji.resources.Functions;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static org.komeiji.main.Main.*;
 
@@ -44,6 +42,16 @@ public class Miscellaneous {
     // get current bot version
     static void version(Message m) {
         m.getChannel().sendMessage(VERSION).queue();
+    }
+
+    // uptime
+    static void uptime(Message m) {
+        Date date = new Date();
+        long millis = date.getTime() - startTime;
+        m.getChannel().sendMessage(String.format("%02dh %02dm %02ds",
+                TimeUnit.MILLISECONDS.toHours(millis),
+                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)))).queue();
     }
 
     // randcaps, randomizes capitalization and sends resulting text with a spongebob image
