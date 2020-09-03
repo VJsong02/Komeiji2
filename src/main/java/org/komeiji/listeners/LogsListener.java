@@ -166,7 +166,7 @@ public class LogsListener extends ListenerAdapter {
 
             if (!a.getMessage().getContentRaw().equals(b.getContentRaw())) {
                 EmbedBuilder suki = new EmbedBuilder().setColor(new Color(255, 255, 0));
-                suki.setTitle("Message edited", e.getMessage().getJumpUrl().replaceAll("discord.com", "discordapp.com"));
+                suki.setTitle("Message edited", e.getMessage().getJumpUrl());
                 suki.addField("Old text", a.getMessage().getContentDisplay(), false);
                 suki.addField("New text", b.getContentDisplay(), false);
                 suki.setFooter(e.getAuthor().getAsTag(), e.getAuthor().getAvatarUrl());
