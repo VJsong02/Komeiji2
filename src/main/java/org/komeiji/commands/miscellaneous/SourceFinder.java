@@ -241,7 +241,16 @@ public class SourceFinder {
             } catch (MalformedURLException ex) {
                 m.getChannel().sendMessage("Your url doesn't work.").queue();
             }
-        else
+        else if (!m.getChannel().getHistory().retrievePast(2).complete().get(1).getAttachments().isEmpty()) {
+            try {
+                String prev = m.getChannel().getHistory().retrievePast(2).complete().get(1)
+                        .getAttachments().get(0).getUrl();
+                new URL(prev);
+                url = prev;
+                System.out.println(url);
+            } catch (MalformedURLException ignored) {
+            }
+        } else
             m.getChannel().sendMessage("`!source` and then a url. Or attach an image or something.").queue();
 
         String search = "https://saucenao.com/search.php?api_key=" + safe.SAUCENAOKEY
