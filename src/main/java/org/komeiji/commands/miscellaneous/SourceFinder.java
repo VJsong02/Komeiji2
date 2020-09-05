@@ -247,7 +247,6 @@ public class SourceFinder {
                         .getAttachments().get(0).getUrl();
                 new URL(prev);
                 url = prev;
-                System.out.println(url);
             } catch (MalformedURLException ignored) {
             }
         } else
