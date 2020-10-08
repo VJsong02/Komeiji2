@@ -31,16 +31,15 @@ public class CustomFunctions {
 
     public static CustomMessage fetchCustomCommand(String name) throws SQLException {
         String query = "SELECT * FROM customcommands WHERE cmd = ?";
-        Connection c = DataSource.getConnection();
-        PreparedStatement p = c.prepareStatement(query);
-        p.setString(1, name);
-        ResultSet r = p.executeQuery();
-        r.next();
-        CustomMessage cm = new CustomMessage(r.getString("link"),
-                r.getDate("date"),
-                r.getString("author"),
-                r.getLong("userid"));
-        r.close();
-        return cm;
+        try (Connection c = DataSource.getConnection();
+             PreparedStatement p = c.prepareStatement(query);
+             ResultSet r = p.executeQuery()) {
+            p.setString(1, name);
+            r.next();
+            return new CustomMessage(r.getString("link"),
+                    r.getDate("date"),
+                    r.getString("author"),
+                    r.getLong("userid"));
+        }
     }
 }
